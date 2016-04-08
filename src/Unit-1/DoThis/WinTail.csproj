@@ -49,8 +49,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConsoleReaderActor.cs" />
-    <Compile Include="ConsoleWriterActor.cs" />
+    <Compile Include="Actors\ConsoleReaderActor.cs" />
+    <Compile Include="Actors\ConsoleWriterActor.cs" />
+    <Compile Include="Actors\FileValidatorActor.cs" />
+    <Compile Include="Actors\TailActor.cs" />
+    <Compile Include="Actors\TailCoordinatorActor.cs" />
+    <Compile Include="Commons\FileObserver.cs" />
     <Compile Include="Messages.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,6 +1,6 @@
 ﻿using System;
-﻿using Akka.Actor;
-using Akka.Actor.Internal;
+using Akka.Actor;
+using WinTail.Actors;
 
 namespace WinTail
 {
@@ -13,8 +13,21 @@ namespace WinTail
         {
             MyActorSystem = ActorSystem.Create("MyActorSystem");
 
-            var consoleWriterActor = MyActorSystem.ActorOf(Props.Create(() => new ConsoleWriterActor()));
-            var consoleReaderActor = MyActorSystem.ActorOf(Props.Create(() => new ConsoleReaderActor(consoleWriterActor)));
+            var consoleWriterProps = Props.Create(typeof (ConsoleWriterActor));
+
+            var consoleWriterActor = MyActorSystem.ActorOf(consoleWriterProps, "consoleWriterActor");
+
+            var tailCoordinatorProps = Props.Create(() => new TailCoordinatorActor());
+
+            var tailCoordinatorActor = MyActorSystem.ActorOf(tailCoordinatorProps, "tailCoordinatorActor");
+
+            var validationProps = Props.Create(() => new FileValidatorActor(consoleWriterActor));
+
+            var validationActor = MyActorSystem.ActorOf(validationProps, "validationActor");
+
+            var consoleReaderProps = Props.Create(() => new ConsoleReaderActor());
+
+            var consoleReaderActor = MyActorSystem.ActorOf(consoleReaderProps, "consoleReaderActor");
 
             consoleReaderActor.Tell(ConsoleReaderActor.StartCommand);
 
